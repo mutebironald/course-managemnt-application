@@ -13,18 +13,4 @@ const HomePage = () => (
 
 export default HomePage;
 
-/**
- * React router dom / routing explained
- * 
- * At the top level we use the BrowserRouter to allow browser routing
- * then we use the Route to navigate between different components
- * 
- * We use the Link  or NavLink as anchor tags
- * 
- * Link has a history prop that stores the history of navigation, clicking on a link triggers history.push()
- * 
- * We use links to symbolise anchor tags
- * 
- */
 
-//for the usual a tags use Link, 
