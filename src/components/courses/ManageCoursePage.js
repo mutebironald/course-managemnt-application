@@ -5,7 +5,8 @@ import { loadAuthors } from "../../redux/actions/authorActions";
 import PropTypes from "prop-types";
 import CourseForm from "./CourseForm";
 import { newCourse } from "../../../tools/mockData";
-import Spinner  from "../common/Spinner";
+import Spinner from "../common/Spinner";
+import { toast } from "react-toastify";
 
 function ManageCoursePage({
   courses,
@@ -18,9 +19,10 @@ function ManageCoursePage({
 }) {
   const [course, setCourse] = useState({ ...props.course });
   const [errors, setErrors] = useState({});
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (courses.length == 0) {
+    if (courses.length === 0) {
       loadCourses().catch(error => {
         alert("Load Courses failed" + error);
       });
@@ -45,7 +47,11 @@ function ManageCoursePage({
 
   function handleSave(event) {
     event.preventDefault();
-    saveCourse(course).then(() => history.push("/courses"));
+    setSaving(true);
+    saveCourse(course).then(() => {
+      toast.success("Course saved."); 
+      history.push("/courses");
+    });
   }
 
   return authors.length == 0 || courses.length == 0 ? (
@@ -57,6 +63,7 @@ function ManageCoursePage({
       errors={errors}
       onChange={handleChange}
       onSave={handleSave}
+      saving={saving}
     />
   );
 }
@@ -64,7 +71,7 @@ function ManageCoursePage({
 ManageCoursePage.propTypes = {
   course: PropTypes.object.isRequired,
   courses: PropTypes.array.isRequired,
-  authors: PropTypes.object.isRequired,
+  authors: PropTypes.array.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   loadCourses: PropTypes.func.isRequired,
   saveCourse: PropTypes.func.isRequired,
